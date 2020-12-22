@@ -1,0 +1,43 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+before_script:
+  - cd $DB_TYPE
+  - echo $DB_TYPE
+  - pwd
+  - ls
+  - rm -rf .terraform
+  - terraform --version
+  - terraform init
+
+
+stages:
+ # - validate
+ # - plan
+  - apply
+
+#validate:
+# stage: validate
+# script:
+#   - terraform validate
+
+#plan:
+ # stage: plan
+ #script:
+  #  - terraform plan
+  #dependencies:
+   # - validate
+#  artifacts:
+#    paths:
+#      - planfile
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve
+  #dependencies:
+   # - validate
+  #when: manual
